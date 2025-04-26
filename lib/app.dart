@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:weatherly/ui/screens/splash_screen.dart';
-
-import 'ui/screens/home_screen.dart';
+import 'ui/utilities/app_colors.dart';
 
 class Weatherly extends StatelessWidget {
   const Weatherly({super.key});
@@ -14,24 +13,36 @@ class Weatherly extends StatelessWidget {
     SystemChrome.setSystemUIOverlayStyle(
       brightness == Brightness.dark
           ? SystemUiOverlayStyle.light.copyWith(
-        statusBarColor: Colors.black,
-        statusBarIconBrightness: Brightness.light,
-      )
+            statusBarColor: Colors.black,
+            statusBarIconBrightness: Brightness.light,
+          )
           : SystemUiOverlayStyle.dark.copyWith(
-        statusBarColor: Colors.white,
-        statusBarIconBrightness: Brightness.dark,
-      ),
+            statusBarColor: Colors.white,
+            statusBarIconBrightness: Brightness.dark,
+          ),
     );
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       home: SplashScreen(),
-      themeMode: ThemeMode.system,
+      // home: WeatherHome(),
+      themeMode: ThemeMode.light,
       theme: lightTheme,
       darkTheme: darkTheme,
-
     );
-
   }
 }
-final ThemeData lightTheme= ThemeData();
+
+final ThemeData lightTheme = ThemeData(
+  colorSchemeSeed: AppColors.themeColor,
+  progressIndicatorTheme: const ProgressIndicatorThemeData(
+    color: AppColors.themeColor,
+  ),
+
+  textTheme: TextTheme(
+    bodyLarge: TextStyle(color: Colors.black),
+    bodyMedium: TextStyle(color: Colors.black),
+    titleLarge: TextStyle(color: Colors.black),
+  ),
+  appBarTheme: AppBarTheme(),
+);
 final ThemeData darkTheme = ThemeData();

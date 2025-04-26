@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:weatherly/ui/screens/home_screen.dart';
-import 'package:weatherly/ui/screens/temp.dart';
+
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
