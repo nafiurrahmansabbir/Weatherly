@@ -4,10 +4,14 @@ import 'package:http/http.dart' as http;
 import 'package:weatherly/ui/data/model/weather_model.dart';
 
 class WeatherServices {
-  String ApiKey =
-      "https://api.openweathermap.org/data/2.5/weather?lat=23.89695357891459&lon=90.33100077096134&appid=08777520a05b92e6526442a57825b0cf&units=matric&exclude=hourly,daily";
+  // String ApiKey =
+  //     "https://api.openweathermap.org/data/2.5/weather?lat=23.89695357891459&lon=90.33100077096134&appid=08777520a05b92e6526442a57825b0cf&units=matric&exclude=hourly,daily";
 
-  fetchWeather() async {
+
+  fetchWeather(String lat, String lon) async {
+
+    String ApiKey =
+        "https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=08777520a05b92e6526442a57825b0cf&units=matric&exclude=hourly,daily";
     final response = await http.get(Uri.parse(ApiKey));
     print(response.statusCode);
     try {

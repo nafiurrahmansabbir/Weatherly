@@ -1,8 +1,11 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:weatherly/ui/utilities/app_colors.dart';
 import '../data/model/weather_model.dart';
 import '../data/service/services.dart';
+import 'package:geolocator/geolocator.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -12,13 +15,33 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String temp = 'null ';
   late WeatherData weather;
   bool isLoading = false;
+  String lat='';
+  String lon='';
+
+  getCurrentLocation() async {
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied ||
+        permission == LocationPermission.deniedForever) {
+      print('Denied');
+      LocationPermission ask = await Geolocator.requestPermission();
+    } else {
+      Position currentposition = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.best,
+      );
+      print(
+        'Latiture ${currentposition.latitude.toString()} Longitute ${currentposition.longitude.toString()}',
+      );
+      lat=currentposition.latitude.toString();
+      lon=currentposition.longitude.toString();
+    }
+    myWeather();
+  }
 
   myWeather() {
     isLoading = false;
-    WeatherServices().fetchWeather().then((value) {
+    WeatherServices().fetchWeather(lat,lon).then((value) {
       setState(() {
         weather = value;
         isLoading = true;
@@ -43,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
       weather: [],
       seaLevel: 0,
     );
-    myWeather();
+    getCurrentLocation();
   }
 
   @override
@@ -55,7 +78,10 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Weatherly'),
-        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.my_location))],
+        actions: [IconButton(onPressed: () {
+
+          getCurrentLocation();
+        }, icon: Icon(Icons.my_location))],
       ),
       body: SingleChildScrollView(
         child: Padding(
