@@ -32,8 +32,13 @@ class WeatherInfoCard extends StatelessWidget {
           children: [
             Text(formattedDate, style: TextStyle(fontSize: 22)),
             Text(formattedTime, style: TextStyle(fontSize: 18)),
-            Text(weather.name, style: TextStyle(fontSize: 25)),
-            SizedBox(),
+
+            Row(
+              children: [
+                Text("${weather.name} , ", style: TextStyle(fontSize: 25)),
+                Text(weather.country, style: TextStyle(fontSize: 25)),
+              ],
+            ),
             Center(
               child: Text(
                 "${weather.temperature.current.toStringAsFixed(2)}°C",

@@ -34,6 +34,24 @@ class Weatherly extends StatelessWidget {
 
 final ThemeData lightTheme = ThemeData(
   colorSchemeSeed: AppColors.themeColor,
+
+  inputDecorationTheme: InputDecorationTheme(
+    fillColor: Colors.grey.shade200,
+    filled: true,
+    border: OutlineInputBorder(
+      borderSide: BorderSide.none,
+      borderRadius: BorderRadius.all(Radius.circular(30)),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderSide: BorderSide.none,
+      borderRadius: BorderRadius.all(Radius.circular(30)),
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderSide: BorderSide.none,
+      borderRadius: BorderRadius.all(Radius.circular(30)),
+    ),
+  ),
+
   progressIndicatorTheme: const ProgressIndicatorThemeData(
     color: AppColors.themeColor,
   ),

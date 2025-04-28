@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import '../data/model/weather_model.dart';
 import '../data/service/services.dart';
 import 'package:geolocator/geolocator.dart';
-
 import '../widgets/loadin_animation/weather_details_info_card_skelton.dart';
 import '../widgets/weather_details_info_card.dart';
 import '../widgets/weather_info_card.dart';
@@ -19,38 +18,33 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late WeatherData weather;
   bool isLoading = false;
-  String lat='';
-  String lon='';
+  String lat = '';
+  String lon = '';
 
   getCurrentLocation() async {
     LocationPermission permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied ||
         permission == LocationPermission.deniedForever) {
-      print('Denied');
       LocationPermission ask = await Geolocator.requestPermission();
     } else {
       Position currentposition = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.best,
       );
-      print(
-        'Latiture ${currentposition.latitude.toString()} Longitute ${currentposition.longitude.toString()}',
-      );
-      lat=currentposition.latitude.toString();
-      lon=currentposition.longitude.toString();
+      lat = currentposition.latitude.toString();
+      lon = currentposition.longitude.toString();
     }
     myWeather();
   }
 
   myWeather() {
-    setState(() {
-      isLoading = false;
-    });
-    WeatherServices().fetchWeather(lat,lon).then((value) {
+    WeatherServices().fetchWeather(lat, lon).then((value) {
       setState(() {
         weather = value;
         isLoading = true;
       });
     });
+
+
   }
 
   @override
@@ -67,35 +61,76 @@ class _HomeScreenState extends State<HomeScreen> {
       pressure: 0,
       weather: [],
       seaLevel: 0,
+      country: '',
     );
     getCurrentLocation();
   }
+  final TextEditingController searchTEController =TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+
     String formattedDate = DateFormat(
       'EEEE d, MMMM yyyy',
     ).format(DateTime.now());
     String formattedTime = DateFormat('hh:mm a').format(DateTime.now());
-    double screenWidth=MediaQuery.of(context).size.width;
+    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         title: Text('Weatherly'),
-        actions: [IconButton(onPressed: () {
-
-          getCurrentLocation();
-        }, icon: Icon(Icons.my_location))],
+        actions: [
+          IconButton(
+            onPressed: () {
+              setState(() {
+                isLoading = false;
+              });
+              getCurrentLocation();
+            },
+            icon: Icon(Icons.my_location),
+          ),
+        ],
       ),
+
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(8.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              TextFormField(
+                controller: searchTEController,
+                textInputAction: TextInputAction.search,
+                onFieldSubmitted: (value) {
+                  WeatherServices().fetchWeatherByCity(searchTEController.text).then((value){
+                    setState(() {
+                      isLoading=false;
+                    });
+                    setState(() {
+                      weather = value;
+                      isLoading = true;
+                    });
+                    _clearTexFieldTex();
+                  });
+                },
+                decoration: InputDecoration(
+                  fillColor: Colors.grey.shade200,
+                  // fillColor: AppColors.themeColor.withOpacity(0.2),
+                  filled: true,
+                  hintText: 'Search',
+                  prefixIcon: Icon(Icons.search),
+
+                ),
+              ),
+              SizedBox(height: 10),
               Visibility(
-                  visible: isLoading==true,
-                  replacement: WeatherInfoCardSkelton(screenWidth: screenWidth),
-                  child: WeatherInfoCard(formattedDate: formattedDate, formattedTime: formattedTime, weather: weather)),
+                visible: isLoading == true,
+                replacement: WeatherInfoCardSkelton(screenWidth: screenWidth),
+                child: WeatherInfoCard(
+                  formattedDate: formattedDate,
+                  formattedTime: formattedTime,
+                  weather: weather,
+                ),
+              ),
 
               const SizedBox(height: 30),
               Padding(
@@ -106,27 +141,24 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
 
-
               Visibility(
-                visible: isLoading==true,
-                  replacement: WeatherDetailsInfoCardSkelton(),
-                  child: WeatherDetailsInfoCard(weather: weather,)),
+                visible: isLoading == true,
+                replacement: WeatherDetailsInfoCardSkelton(),
+                child: WeatherDetailsInfoCard(weather: weather),
+              ),
+
             ],
           ),
         ),
       ),
     );
   }
+  @override
+  void dispose() {
+    searchTEController.dispose();
+    super.dispose();
+  }
+  void _clearTexFieldTex(){
+    searchTEController.clear();
+  }
 }
-
-
-
-
-
-
-
-
-
-
-
-
