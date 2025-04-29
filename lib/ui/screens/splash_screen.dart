@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:weatherly/ui/screens/home_screen.dart';
+import 'package:weatherly/ui/utilities/asset_paths.dart';
 
 
 class SplashScreen extends StatefulWidget {
@@ -33,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen> {
             Spacer(),
             SizedBox(
               height: 250,
-                child: Lottie.asset("assets/images/lotties/splash_screen_lottie.json")),
+                child: Lottie.asset(AssetPaths.splashScreenLottie)),
             Text('Weatherly',style: TextStyle(fontSize: 26,fontWeight: FontWeight.w500),),
             Spacer(),
             CircularProgressIndicator(),

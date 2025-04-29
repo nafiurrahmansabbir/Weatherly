@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:weatherly/ui/utilities/app_colors.dart';
 import '../data/model/weather_model.dart';
 import '../data/service/services.dart';
 import 'package:geolocator/geolocator.dart';
@@ -51,18 +52,25 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    weather = WeatherData(
+   weather = WeatherData(
       name: '',
+      country: '',
       temperature: Temperature(current: 0.0),
       humidity: 0,
       wind: Wind(speed: 0.0),
       maxTemperature: 0,
       minTemperature: 0,
       pressure: 0,
-      weather: [],
       seaLevel: 0,
-      country: '',
+      weather: [
+        WeatherInfo(
+          main: '',
+          description: '',
+          icon: '01d', // 🌞 default sunny icon
+        ),
+      ],
     );
+
     getCurrentLocation();
   }
   final TextEditingController searchTEController =TextEditingController();
@@ -140,12 +148,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                 ),
               ),
+              SizedBox(height: 20,),
 
               Visibility(
                 visible: isLoading == true,
                 replacement: WeatherDetailsInfoCardSkelton(),
                 child: WeatherDetailsInfoCard(weather: weather),
               ),
+
+
+
 
             ],
           ),

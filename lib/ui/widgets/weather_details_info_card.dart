@@ -16,10 +16,10 @@ class _WeatherDetailsInfoCardState extends State<WeatherDetailsInfoCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 250,
+      // height: 250,
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
-        color: AppColors.themeColor.withOpacity(0.3),
+        color: AppColors.themeColor.withOpacity(AppColors.cardOpacity),
         borderRadius: BorderRadius.circular(23),
       ),
       child: Padding(
@@ -103,6 +103,19 @@ class _WeatherDetailsInfoCardState extends State<WeatherDetailsInfoCard> {
                 ),
               ],
             ),
+            // Center(
+            //   child: Container(
+            //     width: 200.0,
+            //     height: 200.0,
+            //     decoration: BoxDecoration(
+            //       image: DecorationImage(
+            //         image: NetworkImage("https://openweathermap.org/img/wn/${widget.weather.weather[0].icon}@2x.png"),
+            //
+            //       fit: BoxFit.cover,
+            //       ),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

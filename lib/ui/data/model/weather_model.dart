@@ -8,7 +8,7 @@ class WeatherData {
   final double minTemperature;
   final int pressure;
   final int seaLevel;
-  final List<WeatherInfo> weather;
+  final List<WeatherInfo> weather; // 🔹 Already included — holds main/desc/icon
 
   WeatherData({
     required this.name,
@@ -30,8 +30,8 @@ class WeatherData {
       temperature: Temperature.fromJson(json['main']['temp']),
       humidity: json['main']['humidity'],
       wind: Wind.fromJson(json['wind']),
-      maxTemperature: json['main']['temp_max'],
-      minTemperature: json['main']['temp_min'],
+      maxTemperature: json['main']['temp_max'].toDouble(),
+      minTemperature: json['main']['temp_min'].toDouble(),
       pressure: json['main']['pressure'],
       seaLevel: json['main']['sea_level'] ?? 0,
       weather: List<WeatherInfo>.from(
@@ -43,16 +43,23 @@ class WeatherData {
   }
 }
 
+// 🔹 Modified: added description and icon
 class WeatherInfo {
-  final String main;
+  final String main;         // e.g., "Clouds"
+  final String description;  // 🔹 Added: e.g., "few clouds"
+  final String icon;         // 🔹 Added: e.g., "02d"
 
   WeatherInfo({
     required this.main,
+    required this.description, // 🔹 Added
+    required this.icon,        // 🔹 Added
   });
 
   factory WeatherInfo.fromJson(Map<String, dynamic> json) {
     return WeatherInfo(
       main: json['main'],
+      description: json['description'], // 🔹 Added
+      icon: json['icon'],              // 🔹 Added
     );
   }
 }
@@ -64,7 +71,7 @@ class Temperature {
 
   factory Temperature.fromJson(dynamic json) {
     return Temperature(
-      current: json,
+      current: json.toDouble(),
     );
   }
 }
@@ -75,6 +82,6 @@ class Wind {
   Wind({required this.speed});
 
   factory Wind.fromJson(Map<String, dynamic> json) {
-    return Wind(speed: json['speed']);
+    return Wind(speed: json['speed'].toDouble());
   }
 }
