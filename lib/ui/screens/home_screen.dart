@@ -155,6 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 replacement: WeatherDetailsInfoCardSkelton(),
                 child: WeatherDetailsInfoCard(weather: weather),
               ),
+              const SizedBox(height: 30,),
 
 
 

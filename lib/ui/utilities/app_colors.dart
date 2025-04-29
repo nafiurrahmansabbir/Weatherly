@@ -10,5 +10,5 @@ class AppColors {
   static const Color darkThemeCardColor = Color(0xFF1D2939);
   static const Color lightThemeCardColor = Color(0xFFF3F4F6);
   static const Color AppBarUtilsColor = Colors.white;
-  static const double cardOpacity=0.2;
+  static const double cardOpacity=0.5;
 }
