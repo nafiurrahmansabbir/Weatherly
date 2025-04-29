@@ -1,6 +1,10 @@
 # weatherly
-NDK version 27.0.12077973
 FVM Version
+{
+  "flutterSdkVersion": "3.29.2"
+}
+NDK version 27.0.12077973
+
 
 A new Flutter project.
 
